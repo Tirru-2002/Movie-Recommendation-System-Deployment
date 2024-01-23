@@ -4,7 +4,7 @@ import pandas as pd
 
 # Load your dataset
 # Assuming 'ds' is your DataFrame containing movie information including 'Movie Name', 'Description'
-ds = pd.read_csv(r'D:\DATA_SCIENCE_COURSE\PROJECT-1\movies_dataset(deploy).csv')
+ds = pd.read_csv(r'movies_dataset(deploy).csv')
 # Replace this with your actual DataFrame
 
 similarity = pickle.load(open("similarity.pkl",'rb'))
