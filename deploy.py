@@ -9,8 +9,39 @@ ds = pd.read_csv(r'movies_dataset(deploy).csv')
 
 similarity = pickle.load(open("similarity.pkl",'rb'))
 
-# Streamlit app
-st.title('Movie Recommendation System')
+# Add custom CSS style for st.title
+st.markdown(
+    """
+    <style>
+        .title-text {
+            font-size: 36px;
+            color: #ffffff;  /* White text color */
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .subheader-text {
+            font-size: 24px;
+            color: #ffffff;  /* White text color */
+            margin-bottom: 10px;
+        }
+        .custom-table th, .custom-table td {
+            padding: 12px;
+            color: #ffffff;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            background-color: #333333;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        .custom-table th {
+            
+            background-color: #555555;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+st.markdown('<h1 class="title-text">Movie Recommendation System</h1>', unsafe_allow_html=True)
 
 # User input for movie name
 movie_name = st.selectbox('Select movie name:', ds['Movie Name'])
@@ -21,7 +52,7 @@ st.markdown(
     f"""
     <style>
         .stApp {{
-            background-image:linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5)), url("{background_image}");
+            background-image: url("{background_image}");
             background-size: cover;
             display: flex;
         }}
@@ -58,31 +89,14 @@ def recommend_movies_by_name(movie_name):
 # Display recommendations with styled table
 recommendations = recommend_movies_by_name(movie_name)
 if not isinstance(recommendations, str):
-    st.subheader('Top 10 Recommended Movies:')
+    # Add custom CSS style for st.subheader
+    st.markdown('<h2 class="subheader-text">Top 10 Recommended Movies:</h2>', unsafe_allow_html=True)
+
     # Apply custom CSS styles to the table
-    st.markdown(
-        """
-        <style>
-            table.dataframe {
-                font-size: 18px;
-                color: white;
-                border-collapse: collapse;
-                width: 100%;
-                
-            }
-            th, td {
-                padding: 12px;
-                text-align: left;
-                border-bottom: 1px solid #ddd;
-                background-color: #000000;
-            }
-            th {
-                background-color: #0e4b0e;
-            }
-        </style>
-        """,
-        unsafe_allow_html=True
-    )
-    st.table(recommendations[['Movie Name','Year of Release','Description', 'Genre']].reset_index(drop=True))
+    st.table(recommendations[['Movie Name', 'Year of Release', 'Description', 'Genre']].reset_index(drop=True).style.set_table_styles([
+        {'selector': 'th', 'props': [('background-color', '#000'), ('color', '#ffffff'),('font-size', '18px')]},
+        {'selector': 'td', 'props': [('background-color', '#000'), ('color', '#ffffff')]},
+        {'selector': '.index_col', 'props': [('display', 'none')]}
+    ]))
 else:
     st.write(recommendations)
