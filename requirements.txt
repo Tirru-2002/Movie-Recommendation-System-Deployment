@@ -1,0 +1,10 @@
+numpy
+streamlit
+sentence-transformers
+faiss-cpu
+rank-bm25
+pandas
+textblob
+spacy
+seaborn
+ipykernel
